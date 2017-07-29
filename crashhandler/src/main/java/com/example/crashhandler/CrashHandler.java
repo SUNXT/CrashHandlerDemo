@@ -3,7 +3,6 @@ package com.example.crashhandler;
 import android.content.Context;
 import android.os.Build;
 import android.os.Looper;
-import android.os.Process;
 import android.util.Log;
 import android.widget.Toast;
 
@@ -70,10 +69,9 @@ public class CrashHandler implements Thread.UncaughtExceptionHandler{
      */
     @Override
     public void uncaughtException(Thread thread, Throwable throwable) {
-        if (!catchException(throwable) && mDefaultHandler != null){
+        catchException(throwable);
+        if (mDefaultHandler != null){
             mDefaultHandler.uncaughtException(thread, throwable);
-        }else {
-            killProcess();
         }
     }
 
@@ -92,6 +90,7 @@ public class CrashHandler implements Thread.UncaughtExceptionHandler{
         if (mCrashUploader != null){
             mCrashUploader.uploadCrashInfo(mCrashInfo);
         }
+        showCrashView();
         return true;
     }
 
@@ -167,7 +166,7 @@ public class CrashHandler implements Thread.UncaughtExceptionHandler{
         }
     }
 
-    private void killProcess(){
+    private void showCrashView(){
         new Thread(new Runnable() {
             @Override
             public void run() {
@@ -185,8 +184,6 @@ public class CrashHandler implements Thread.UncaughtExceptionHandler{
         } catch (InterruptedException ex) {
             Log.e("CrashHandler:", "CrashHandler.InterruptedException--->" + ex.toString());
         }
-        Process.killProcess(Process.myPid());
-        System.exit(1);
     }
 
     /**
