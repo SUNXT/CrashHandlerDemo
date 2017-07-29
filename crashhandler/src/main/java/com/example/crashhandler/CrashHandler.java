@@ -150,7 +150,7 @@ public class CrashHandler implements Thread.UncaughtExceptionHandler{
         Log.i(getClass().getSimpleName(), buffer.toString());
 
         Date date = new Date(System.currentTimeMillis());
-        String time = new SimpleDateFormat("yyyy-mm-dd_hh-mm-ss").format(date);
+        String time = new SimpleDateFormat("yyyy-mm-dd hh:mm:ss").format(date);
         String fileName = "mCrashLog-" + time + ".txt";
         File mDirectory = new File(mDirPath);
         if (!mDirectory.exists()){
@@ -210,14 +210,14 @@ public class CrashHandler implements Thread.UncaughtExceptionHandler{
     /**
      * 定义的接口，实现异常上传
      */
-    interface OnCrashUploader {
+    public interface OnCrashUploader {
         void uploadCrashInfo(HashMap<String, String> crashInfo);
     }
 
     /**
      * 接口，奔溃时给出的提示或操作
      */
-    interface OnShowCrashHintView {
+    public interface OnShowCrashHintView {
         void showCrashView();
     }
 }
