@@ -63,10 +63,6 @@ public class CrashHandler implements Thread.UncaughtExceptionHandler{
         Thread.setDefaultUncaughtExceptionHandler(this);
     }
 
-    public void setOnCrashUploader(OnCrashUploader crashUploader){
-        this.mCrashUploader = crashUploader;
-    }
-
     /**
      * 处理异常信息
      * @param thread
@@ -201,6 +197,14 @@ public class CrashHandler implements Thread.UncaughtExceptionHandler{
         if (duration > 500 && duration < 4000){
             mCrashCloseAppDuration = duration;
         }
+    }
+
+    public void setOnCrashUploader(OnCrashUploader crashUploader){
+        this.mCrashUploader = crashUploader;
+    }
+
+    public void setOnShowCrashHintView(OnShowCrashHintView showCrashHintView){
+        mOnShowCrashHintView = showCrashHintView;
     }
 
     /**
